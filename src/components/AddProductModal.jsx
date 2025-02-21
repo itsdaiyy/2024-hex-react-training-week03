@@ -51,9 +51,23 @@ function AddProductModal({
 
     onClose();
 
-    const allProducts = await getProducts();
-    if (allProducts === null) return;
-    setProducts(allProducts);
+    const productsRes = await getProducts();
+    if (productsRes === null) return;
+    setProducts(productsRes.products);
+  }
+
+  function handleFileChange(e) {
+    console.log(e.target);
+
+    const file = e.target.files[0];
+
+    // console.log(file);
+
+    const formData = new FormData();
+
+    formData.append("file-to-upload", file);
+    console.log(formData);
+    console.log(formData.get("file-to-upload"));
   }
 
   return (
@@ -80,6 +94,18 @@ function AddProductModal({
           <div className="modal-body p-4">
             <div className="row g-4">
               <div className="col-md-4">
+                <div className="mb-5">
+                  <label htmlFor="fileInput" className="form-label">
+                    圖片上傳
+                  </label>
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    className="form-control"
+                    id="fileInput"
+                    onChange={(e) => handleFileChange(e)}
+                  />
+                </div>
                 <div className="mb-4">
                   <label htmlFor="primary-image" className="form-label">
                     主圖

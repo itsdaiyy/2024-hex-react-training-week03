@@ -6,6 +6,7 @@ import { getProducts } from "../services/apiProducts";
 import ProductsListItem from "./ProductsListItem";
 import AddProductModal from "./AddProductModal";
 import DeleteProductModal from "./DeleteProductModal";
+import Pagination from "./Pagination";
 
 const defaultModalState = {
   imageUrl: "",
@@ -24,6 +25,7 @@ function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [modalMode, setModalMode] = useState(null);
   const [tempProduct, setTempProduct] = useState(defaultModalState);
+  const [pageInfo, setPageInfo] = useState();
 
   const productModalRef = useRef(null);
   const deleteProductModalRef = useRef(null);
@@ -36,7 +38,11 @@ function AdminDashboard() {
         setProducts([]);
         return;
       }
-      setProducts(data);
+
+      const { products, pagination } = data;
+
+      setProducts(products);
+      setPageInfo(pagination);
     };
     getData();
   }, []);
@@ -128,6 +134,13 @@ function AdminDashboard() {
             </table>
           </div>
         </div>
+      </div>
+      <div className="container my-4">
+        <Pagination
+          pageInfo={pageInfo}
+          setProducts={setProducts}
+          setPageInfo={setPageInfo}
+        />
       </div>
       <AddProductModal
         tempProduct={tempProduct}

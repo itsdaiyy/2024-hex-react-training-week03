@@ -12,9 +12,9 @@ function DeleteProductModal({
 
     onClose();
 
-    const allProducts = await getProducts();
-    if (res === allProducts) return;
-    setProducts(allProducts);
+    const productsRes = await getProducts();
+    if (productsRes === null) return;
+    setProducts(productsRes.products);
   }
 
   return (
