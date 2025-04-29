@@ -1,7 +1,6 @@
 import { getProducts } from "../services/apiProducts";
 
 function Pagination({ pageInfo, setProducts, setPageInfo }) {
-  console.log(pageInfo);
   async function handlePageChange(page) {
     const data = await getProducts(page);
     if (data === null) return;

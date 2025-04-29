@@ -1,15 +1,10 @@
 import axios from "axios";
+import toast from "react-hot-toast";
 
 // 從環境變數中解構出 API 基本路徑
 const { VITE_BASE_URL, VITE_API_PATH } = import.meta.env;
 
 export async function getProducts(page = 1) {
-  // 確保環境變數存在，否則提示錯誤
-  if (!VITE_BASE_URL || !VITE_API_PATH) {
-    console.error("環境變數未正確配置：VITE_BASE_URL 或 VITE_API_PATH 缺失");
-    return null;
-  }
-
   const url = `${VITE_BASE_URL}/v2/api/${VITE_API_PATH}/admin/products?page=${page}`;
 
   try {
@@ -25,12 +20,6 @@ export async function getProducts(page = 1) {
 }
 
 export async function addProduct(product) {
-  // 確保環境變數存在，否則提示錯誤
-  if (!VITE_BASE_URL || !VITE_API_PATH) {
-    console.error("環境變數未正確配置：VITE_BASE_URL 或 VITE_API_PATH 缺失");
-    return null;
-  }
-
   const newProduct = {
     ...product,
     origin_price: Number(product.origin_price),
@@ -45,9 +34,9 @@ export async function addProduct(product) {
       data: newProduct,
     });
 
-    console.log(`上傳資料成功！🎉`);
+    toast.success(`成功新增產品`);
   } catch (error) {
-    console.error(`新增產品發生錯誤：`, error);
+    toast.error(`新增產品發生錯誤`);
     return null;
   }
 }
@@ -58,9 +47,10 @@ export async function deleteProduct(productId) {
   try {
     const res = await axios.delete(url);
     const data = res.data;
+    toast.success(`成功刪除產品`);
     return data;
   } catch (error) {
-    console.error(error);
+    toast.error(`刪除產品發生錯誤`);
     return null;
   }
 }
@@ -80,6 +70,7 @@ export async function updateProduct(product) {
       data: newProduct,
     });
     const data = res.data;
+    toast.success(`成功更新產品`);
     return data;
   } catch (error) {
     console.error(error);

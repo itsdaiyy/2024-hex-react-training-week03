@@ -5,6 +5,7 @@ import { checkLogin, login } from "./services/apiAuth";
 import AdminDashboard from "./components/AdminDashboard";
 import Login from "./components/Login";
 import CheckLogin from "./components/CheckLogin";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   // 儲存使用者表單資料
@@ -24,22 +25,16 @@ function App() {
 
   // 提交登入表單的處理函數
   async function handleSubmit(e) {
-    // 防止表單的預設重新整理行為
     e.preventDefault();
 
     const { username, password } = formData;
 
     if (!username || !password) {
-      console.error("請輸入使用者名稱和密碼");
+      toast.error("請輸入使用者名稱和密碼");
       return;
     }
 
     const res = await login(formData);
-
-    if (!res) {
-      console.log("登入失敗");
-      return;
-    }
 
     // 判斷是否成功取得 token 並更新認證狀態
     setIsAuth(!!res?.token);
@@ -70,6 +65,7 @@ function App() {
           handleInputChange={handleInputChange}
         />
       )}
+      <Toaster />
     </>
   );
 }

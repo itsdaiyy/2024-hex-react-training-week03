@@ -57,17 +57,11 @@ function AddProductModal({
   }
 
   function handleFileChange(e) {
-    console.log(e.target);
 
     const file = e.target.files[0];
-
-    // console.log(file);
-
     const formData = new FormData();
 
     formData.append("file-to-upload", file);
-    console.log(formData);
-    console.log(formData.get("file-to-upload"));
   }
 
   return (
